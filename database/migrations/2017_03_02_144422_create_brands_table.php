@@ -19,6 +19,7 @@ class CreateBrandsTable extends Migration {
       $table->text('description')->nullable()->default(null);
 
       $table->timestamps();
+      $table->softDeletes();
     });
   }
 

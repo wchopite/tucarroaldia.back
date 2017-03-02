@@ -9,7 +9,7 @@ use App\Http\Requests\BrandRequest;
 class BrandsController extends Controller {
 
   /**
-   * Display a listing of the resource.
+   * Display a listing of brands.
    *
    * @return \Illuminate\Http\Response
    */
@@ -20,14 +20,31 @@ class BrandsController extends Controller {
   }
 
   /**
-   * Show the form for creating a new resource.
+   * Display a list of brands soft deleted.
    *
    * @return \Illuminate\Http\Response
    */
-  public function create() { }
+  public function trashed() {
+
+    $trashedBrands = Brand::onlyTrashed()->get();
+    return response()->json($trashedBrands);
+  }
 
   /**
-   * Store a newly created resource in storage.
+   * Restore a brand soft deleted.
+   *
+   * @param  int  $id
+   * @return \Illuminate\Http\Response
+   */
+  public function restore($id) {
+
+    $brand = Brand::withTrashed()->where('id', $id)->first();
+    $brand->restore();
+    return response()->json($brand);
+  }
+
+  /**
+   * Store a newly brand in storage.
    *
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
@@ -40,7 +57,7 @@ class BrandsController extends Controller {
   }
 
   /**
-   * Display the specified resource.
+   * Display the specified brand.
    *
    * @param  int  $id
    * @return \Illuminate\Http\Response
@@ -57,22 +74,14 @@ class BrandsController extends Controller {
   }
 
   /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
-  public function edit($id) { }
-
-  /**
-   * Update the specified resource in storage.
+   * Update the specified brand in storage.
    *
    * @param  \Illuminate\Http\Request  $request
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
   public function update(BrandRequest $request, $id) {
-    
+
     $brand = Brand::find($id);
 
     if(is_null($brand)) {
@@ -85,7 +94,7 @@ class BrandsController extends Controller {
   }
 
   /**
-   * Remove the specified resource from storage.
+   * Remove the specified brand from storage.
    *
    * @param  int  $id
    * @return \Illuminate\Http\Response
