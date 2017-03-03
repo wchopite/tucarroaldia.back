@@ -5,23 +5,30 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Brand extends Model {
+class VehicleModel extends Model {
 
-	use SoftDeletes;
+	use softDeletes;
+
+	/**
+	 * The table associated with the model.
+	 *
+	 * @var string
+	 */
+	protected $table = 'models';
 
 	/**
 	 * The attributes that should be mutated to dates.
    *
    * @var array
    */
-  protected $dates = ['deleted_at'];
+	protected $dates = ['deleted_at'];
 
 	/**
 	 * The attributes that are mass assignable.
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name','description'];
+	protected $fillable = ['name','brand_id','description'];
 
  	/**
    * [$hidden description]
@@ -39,10 +46,10 @@ class Brand extends Model {
 	}
 
 	/**
-	 * Relacion 1:N con modelos de vehiculos
+	 * Relacion N:1 con marcas de vehiculos
 	 */
-	public function models() {
+	public function brand() {
 
-		return $this->hasMany('App\VehicleModel');
+		return $this->belongsTo('App\Brand');
 	}
 }
