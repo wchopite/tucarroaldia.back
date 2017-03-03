@@ -37,8 +37,19 @@ Route::group(['prefix'=>'v1'], function(){
     Route::post('/trashed/{model}', 'VehicleModelsController@restore')->where('model','[0-9]+');
     Route::get('/{model}', 'VehicleModelsController@show')->where('model','[0-9]+');
     Route::post('/', 'VehicleModelsController@store');
-    Route::put('/{model}', 'VehicleModelsController@update')->where('brand','[0-9]+');
-    Route::delete('/{model}', 'VehicleModelsController@destroy')->where('brand','[0-9]+');
+    Route::put('/{model}', 'VehicleModelsController@update')->where('model','[0-9]+');
+    Route::delete('/{model}', 'VehicleModelsController@destroy')->where('model','[0-9]+');
+  });
+
+  // Tipos de vehiculos
+  Route::group(['prefix'=>'types'], function(){
+    Route::get('/', 'TypesController@index');
+    Route::get('/trashed', 'TypesController@trashed');
+    Route::post('/trashed/{type}', 'TypesController@restore')->where('type','[0-9]+');
+    Route::get('/{type}', 'TypesController@show')->where('type','[0-9]+');
+    Route::post('/', 'TypesController@store');
+    Route::put('/{type}', 'TypesController@update')->where('type','[0-9]+');
+    Route::delete('/{type}', 'TypesController@destroy')->where('type','[0-9]+');
   });
 
 });
